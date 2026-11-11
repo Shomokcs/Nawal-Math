@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تكريم متفوقات الرياضيات | المتوسطة الحادية والأربعون بالطائف</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts (Cairo & Amiri & Marhey & Reem Kufi) -->
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,400&family=Cairo:wght@400;600;700;800;900&family=Marhey:wght@600;700&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- html2canvas for certificate downloading -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <!-- Audio Element for High Quality Clear Applause Sound Effect -->
+    <audio id="applauseAudio" preload="auto">
+        <source src="https://assets.mixkit.co/active_storage/sfx/2014/2014-preview.mp3" type="audio/mpeg">
+        <source src="https://actions.google.com/sounds/v1/crowds/applause_medium.ogg" type="audio/ogg">
+    </audio>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fuchsiaPalette: {
+                            900: '#4a0b2e',
+                            800: '#701247',
+                            700: '#9d1761',
+                            600: '#c21875', 
+                            500: '#e0258d', 
+                            400: '#f453ad', 
+                            300: '#f887c9', 
+                            200: '#fbc5e5', 
+                            100: '#fde4f2',
+                            50: '#fff0f7',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            font-family: 'Cairo', sans-serif;
+        }
+        .font-amiri {
+            font-family: 'Amiri', serif;
+        }
+        .font-marhey {
+            font-family: 'Marhey', cursive;
+        }
+        
+        /* Vibrant Bright Fuchsia Background */
+        .fuchsia-bg {
+            background-color: #fff5f9;
+            background-image: 
+                radial-gradient(circle at 50% 15%, rgba(248, 135, 201, 0.35) 0%, transparent 60%),
+                radial-gradient(circle at 10% 80%, rgba(244, 83, 173, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 90% 70%, rgba(224, 37, 141, 0.15) 0%, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        /* Floating Math Elements */
+        .floating-container {
+            position: fixed;
+            width: 100vw;
+            height: 100vh;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .floating-item {
+            position: absolute;
+            color: rgba(224, 37, 141, 0.25);
+            user-select: none;
+            animation: floatAnim 16s infinite linear;
+        }
+
+        @keyframes floatAnim {
+            0% { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
+            100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Gradient Text with Bright Fuchsia Palette */
+        .fuchsia-gradient-text {
+            background: linear-gradient(135deg, #701247 0%, #c21875 40%, #e0258d 70%, #f453ad 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Elegant Fuchsia Button */
+        .fuchsia-btn {
+            background: linear-gradient(135deg, #e0258d 0%, #c21875 50%, #9d1761 100%);
+            box-shadow: 0 4px 18px rgba(224, 37, 141, 0.35);
+            transition: all 0.3s ease;
+        }
+        .fuchsia-btn:hover {
+            background: linear-gradient(135deg, #f453ad 0%, #e0258d 50%, #c21875 100%);
+            box-shadow: 0 6px 22px rgba(244, 83, 173, 0.5);
+            transform: translateY(-2px);
+        }
+
+        /* Student Card Styling (Light & Fresh) */
+        .student-card {
+            transition: all 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 255, 255, 0.92);
+            border: 2px solid rgba(248, 135, 201, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        .student-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            border-color: rgba(224, 37, 141, 0.8);
+            box-shadow: 0 15px 35px rgba(224, 37, 141, 0.18), 0 0 20px rgba(248, 135, 201, 0.3);
+        }
+
+        /* Certificate Frame styling */
+        .certificate-frame {
+            border: 12px solid #701247;
+            outline: 3px solid #f453ad;
+            outline-offset: -8px;
+            background: #ffffff;
+            position: relative;
+        }
+
+        /* Modal active */
+        .modal-active {
+            display: flex !important;
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #fff0f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e0258d;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="fuchsia-bg text-fuchsiaPalette-900 min-h-screen flex flex-col justify-between relative overflow-x-hidden">
+
+    <!-- Floating Background Particles Layer -->
+    <div class="floating-container" id="floatingContainer"></div>
+
+    <!-- Header Section -->
+    <header class="relative z-10 text-center pt-8 pb-4 px-4">
+        
+        <!-- School Badge -->
+        <div class="inline-flex items-center gap-2 px-6 py-2 rounded-full bg-white border-2 border-fuchsiaPalette-300 text-fuchsiaPalette-800 text-sm mb-4 font-bold shadow-md">
+            <span>🌸</span>
+            <span>المتوسطة الحادية والأربعون بالطائف</span>
+            <span>✦</span>
+            <span class="text-fuchsiaPalette-600 font-extrabold">مادة الرياضيات</span>
+        </div>
+        
+        <!-- Main Title -->
+        <h1 class="text-3xl sm:text-5xl font-extrabold mb-3 tracking-tight text-fuchsiaPalette-900 font-marhey">
+            لكل نجمة حكاية تميّز ✨
+        </h1>
+        
+        <!-- Subtitle Text requested by User -->
+        <p class="text-sm sm:text-lg text-fuchsiaPalette-800 max-w-3xl mx-auto font-bold leading-relaxed mb-4 px-4 bg-white/70 py-3 rounded-2xl border border-fuchsiaPalette-200 shadow-sm">
+            خلف كل إنجاز اجتهاد، وخلف كل خطوة واثقة عقلٌ يحبّ التعلّم. اختاري اسمكِ لتشاهدي شهادة الشكر والتقدير الخاصة بكِ في مادة الرياضيات 📐🌸
+        </p>
+        
+        <!-- Teacher Subtitle -->
+        <p class="text-base sm:text-lg text-fuchsiaPalette-800 max-w-2xl mx-auto font-medium flex items-center justify-center gap-2">
+            <span>إعداد وتكريم المعلمة:</span>
+            <span class="text-fuchsiaPalette-900 font-extrabold border-b-2 border-fuchsiaPalette-500 pb-0.5 px-4 bg-white rounded-lg shadow-sm">
+                نوال الجنيدب 🌸
+            </span>
+        </p>
+
+        <!-- Search Bar for Students -->
+        <div class="mt-6 max-w-md mx-auto relative px-4">
+            <input type="text" id="searchInput" oninput="filterStudents()" placeholder="ابحثي عن اسمك هنا..." class="w-full py-3 pr-11 pl-4 rounded-full bg-white border-2 border-fuchsiaPalette-300 text-fuchsiaPalette-900 placeholder-fuchsiaPalette-400 focus:outline-none focus:border-fuchsiaPalette-600 shadow-sm text-sm">
+            <i class="fas fa-search absolute right-8 top-3.5 text-fuchsiaPalette-400"></i>
+        </div>
+    </header>
+
+    <!-- Main Grid Section for Students -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 py-6 w-full flex-grow">
+        <div id="studentsGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Student cards generated dynamically via JS -->
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-6 text-xs text-fuchsiaPalette-700 border-t border-fuchsiaPalette-200 bg-white/60 backdrop-blur-sm">
+        <p>جميع الحقوق محفوظة © مادة الرياضيات - المتوسطة الحادية والأربعون بالطائف</p>
+        <p class="mt-1 font-bold">المعلمة: نوال الجنيدب </p>
+    </footer>
+
+    <!-- Certificate Modal Container -->
+    <div id="certificateModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-md items-center justify-center p-2 sm:p-4 overflow-y-auto">
+        <div class="relative w-full max-w-3xl my-auto">
+            
+            <!-- Close & Download Actions Bar -->
+            <div class="flex justify-between items-center mb-3 px-2">
+                <button onclick="closeModal()" class="bg-white hover:bg-fuchsiaPalette-100 text-fuchsiaPalette-900 font-bold px-4 py-2 rounded-full text-sm shadow transition flex items-center gap-2 border border-fuchsiaPalette-300">
+                    <i class="fas fa-times"></i> إغلاق
+                </button>
+                <button onclick="downloadCertificate()" class="fuchsia-btn text-white font-bold px-5 py-2 rounded-full text-sm shadow transition flex items-center gap-2">
+                    <i class="fas fa-download"></i> تحميل الشهادة كصورة
+                </button>
+            </div>
+
+            <!-- Certificate Printable Card Structure -->
+            <div id="certificateCard" class="certificate-frame p-6 sm:p-10 text-center text-fuchsiaPalette-900 shadow-2xl rounded-xl">
+                
+                <!-- Certificate Header Logos -->
+                <div class="flex items-center justify-between mb-6 border-b border-fuchsiaPalette-200 pb-4">
+                    <!-- Ministry Logo SVG representation -->
+                    <div class="text-right flex flex-col items-start">
+                        <img src="edu.png" alt="شعار وزارة التعليم" class="w-16 h-14 object-contain rounded-md">
+                        <span class="text-[10px] font-bold text-fuchsiaPalette-800 mt-1">وزارة التعليم</span>
+                        <span class="text-[9px] text-fuchsiaPalette-700">Ministry of Education</span>
+                    </div>
+
+                    <div class="text-center px-2">
+                        <div class="w-10 h-10 mx-auto mb-1 bg-fuchsiaPalette-100 rounded-full flex items-center justify-center text-fuchsiaPalette-600 border border-fuchsiaPalette-300">
+                            <i class="fas fa-star text-lg"></i>
+                        </div>
+                        <span class="text-xs font-bold block text-fuchsiaPalette-800">المتوسطة الحادية والأربعون</span>
+                        <span class="text-[10px] text-fuchsiaPalette-600 block">بالطائف</span>
+                    </div>
+
+                    <!-- School Logo Image -->
+                    <div class="text-left flex flex-col items-center">
+                        <img src="41.jpg" alt="41 المدرسة" class="w-16 h-16 object-contain rounded-lg border border-fuchsiaPalette-200 shadow-sm" onerror="this.src='https://placehold.co/100x100/fff0f7/c21875?text=المتوسطة+41'">
+                    </div>
+                </div>
+
+                <!-- Certificate Title -->
+                <h2 class="text-2xl sm:text-4xl font-extrabold text-fuchsiaPalette-900 mb-2 font-marhey">
+                    شهادة شكر وتقدير
+                </h2>
+                
+                <p class="text-xs sm:text-sm font-bold text-fuchsiaPalette-700 tracking-widest mb-4">
+                    تُقدَّم بكل فخر وامتنان
+                </p>
+
+                <div class="text-fuchsiaPalette-500 my-2 text-sm">✦ 🌸 ✦</div>
+
+                <!-- Student Name Placeholder -->
+                <div class="my-5">
+                    <span class="text-xs text-fuchsiaPalette-800 block mb-1">إلى الطالبة المتميّزة</span>
+                    <span id="modalStudentName" class="text-2xl sm:text-4xl font-extrabold text-fuchsiaPalette-800 border-b-2 border-fuchsiaPalette-400 px-6 py-1 inline-block font-amiri bg-fuchsiaPalette-50 rounded-lg shadow-sm">
+                        اسم الطالبة
+                    </span>
+                </div>
+
+                <!-- Main Certificate Text requested by User -->
+                <p class="text-xs sm:text-base text-fuchsiaPalette-900 leading-relaxed font-semibold max-w-xl mx-auto my-6 px-4 bg-fuchsiaPalette-50/50 py-4 rounded-xl border border-fuchsiaPalette-200">
+                    تقديرًا لتفوّقكِ واجتهادكِ وتميّزكِ في مادة الرياضيات، وإشادةً بما أظهرتِه من حرصٍ ومثابرةٍ وروحٍ جميلة في التعلّم عن بعد. لقد كان تميّزكِ مصدر فخرٍ واعتزاز، فواصلي التألّق، فالقادم أجمل بإذن الله.
+                </p>
+
+                <!-- Signatures Section -->
+                <div class="mt-8 pt-4 border-t border-fuchsiaPalette-200 grid grid-cols-2 gap-4 text-center">
+                    <div>
+                        <span class="text-xs text-fuchsiaPalette-600 block mb-1">معلمة المادة</span>
+                        <span class="text-sm sm:text-base font-extrabold text-fuchsiaPalette-900 font-amiri">نوال الجنيدب</span>
+                    </div>
+                    <div>
+                        <span class="text-xs text-fuchsiaPalette-600 block mb-1">مديرة المدرسة</span>
+                        <span class="text-sm sm:text-base font-extrabold text-fuchsiaPalette-900 font-amiri">حصة النفيعي</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript logic -->
+    <script>
+        // List of 16 students with unique personalized encouraging messages
+        const students = [
+            { id: 1, name: "أرام الروقي", phrase: "طالبة متألقة بشغف التفكير المنطقي وحب الرياضيات" },
+            { id: 2, name: "أرام المالكي", phrase: "متميزة ومبدعة في حل المشكلات والدقة عالية" },
+            { id: 3, name: "أرياف الحارثي", phrase: "طالبة متفوقة تمتاز بالحرص والاجتهاد الدائم" },
+            { id: 4, name: "ألياس الصواط", phrase: "شغوفة بالأرقام ومنظمة في التفكير والتحليل" },
+            { id: 5, name: "ألين العتيبي", phrase: "صاحبة ذكاء متميز وحضور مبهج في مادة الرياضيات" },
+            { id: 6, name: "ألين العمري", phrase: "طالبة مجتهدة تسعى دائماً نحو القمة والتميز" },
+            { id: 7, name: "جنى الزهراني", phrase: "مبدعة تتألق بالحلول المبتكرة والفهم السريع" },
+            { id: 8, name: "جنى الجعيد", phrase: "طالبة راقية ومتميزة بدقتها والتزامها العالي" },
+            { id: 9, name: "رزان النفيعي", phrase: "طالبة متميزة تمتاز بالدقة والاجتهاد الدائم" },
+            { id: 10, name: "رند الجعيد", phrase: "ملهمة بروحها التنافسية وحبها للشغف المعرفي" },
+            { id: 11, name: "سجى الميموني", phrase: "عقل منظم وإبداع متجدد في مادة الرياضيات" },
+            { id: 12, name: "شدن الفقيه", phrase: "نجمة متألقة بالحرص والمثابرة اليومية" },
+            { id: 13, name: "فجر الجعيد", phrase: "طالبة متميزة تضيء الفصل بذكائها وحسن تفكيرها" },
+            { id: 14, name: "لانا الحارثي", phrase: "صاحبة همة عالية وإتقان مميز للرياضيات" },
+            { id: 15, name: "لانا الثبيتي", phrase: "طالبة تفوق وتألق ومثال للالتزام والإبداع" },
+            { id: 16, name: "جود الشهري", phrase: "حضور مبهر وتفوق مستحق في مادة الرياضيات" }
+        ];
+
+        // Background floating math elements generator
+        function createFloatingElements() {
+            const container = document.getElementById('floatingContainer');
+            const symbols = ['+', '−', '×', '÷', '=', 'π', '√', '∞', '∑', '△', '🌸', '✨'];
+            for (let i = 0; i < 25; i++) {
+                const item = document.createElement('div');
+                item.className = 'floating-item font-bold';
+                item.innerText = symbols[Math.floor(Math.random() * symbols.length)];
+                item.style.left = `${Math.random() * 95}vw`;
+                item.style.fontSize = `${Math.random() * 20 + 16}px`;
+                item.style.animationDuration = `${Math.random() * 10 + 12}s`;
+                item.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(item);
+            }
+        }
+
+        // Render Student Cards
+        function renderStudents(list) {
+            const grid = document.getElementById('studentsGrid');
+            grid.innerHTML = '';
+
+            list.forEach(student => {
+                const card = document.createElement('div');
+                card.className = 'student-card rounded-2xl p-5 text-center flex flex-col justify-between shadow-sm';
+                card.innerHTML = `
+                    <div>
+                        <div class="w-14 h-14 mx-auto mb-3 bg-fuchsiaPalette-100 border-2 border-fuchsiaPalette-300 rounded-full flex items-center justify-center text-fuchsiaPalette-600 text-xl font-bold shadow-inner">
+                            🌸
+                        </div>
+                        <h3 class="text-lg font-extrabold text-fuchsiaPalette-900 mb-2">${student.name}</h3>
+                        <p class="text-xs text-fuchsiaPalette-700 leading-relaxed bg-fuchsiaPalette-50/80 p-2.5 rounded-xl border border-fuchsiaPalette-200 mb-4 min-h-[50px] flex items-center justify-center">
+                            "${student.phrase}"
+                        </p>
+                    </div>
+                    <button onclick="openCertificate('${student.name}')" class="fuchsia-btn text-white text-xs font-bold py-2.5 px-4 rounded-xl flex items-center justify-center gap-2 w-full">
+                        <span>عرض شهادة التقدير</span>
+                        <i class="fas fa-award"></i>
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // Filter Students
+        function filterStudents() {
+            const query = document.getElementById('searchInput').value.trim().toLowerCase();
+            const filtered = students.filter(s => s.name.toLowerCase().includes(query));
+            renderStudents(filtered);
+        }
+
+        // Play Sound Effect
+        function playApplause() {
+            const audio = document.getElementById('applauseAudio');
+            if (audio) {
+                audio.currentTime = 0;
+                audio.volume = 1.0;
+                audio.play().catch(e => console.log('Audio autoplay prevented:', e));
+            }
+        }
+
+        // Trigger Confetti
+        function triggerConfetti() {
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 80,
+                    spread: 70,
+                    origin: { y: 0.6 },
+                    colors: ['#c21875', '#e0258d', '#f453ad', '#fbc5e5', '#ffb703']
+                });
+            }
+        }
+
+        // Open Modal Certificate
+        function openCertificate(name) {
+            document.getElementById('modalStudentName').innerText = name;
+            const modal = document.getElementById('certificateModal');
+            modal.classList.add('modal-active');
+            
+            playApplause();
+            triggerConfetti();
+        }
+
+        // Close Modal Certificate
+        function closeModal() {
+            const modal = document.getElementById('certificateModal');
+            modal.classList.remove('modal-active');
+        }
+
+        // Download Certificate as PNG Image
+        function downloadCertificate() {
+            const card = document.getElementById('certificateCard');
+            html2canvas(card, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: "#ffffff"
+            }).then(canvas => {
+                const link = document.createElement('a');
+                const studentName = document.getElementById('modalStudentName').innerText;
+                link.download = `شهادة_تقدير_${studentName}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            });
+        }
+
+        // Initialize on Load
+        window.onload = function() {
+            createFloatingElements();
+            renderStudents(students);
+        }
+    </script>
+</body>
+</html>
